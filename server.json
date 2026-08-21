@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "app.sprkly/sprkly",
+  "description": "Draft, schedule, and publish social posts to TikTok, Instagram, and more. Check analytics and manage the queue without leaving the chat.",
+  "version": "1.0.0",
+  "websiteUrl": "https://sprkly.app",
+  "repository": {
+    "url": "https://github.com/ahlanlhw/sprkly-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://sprkly.app/api/mcp"
+    }
+  ]
+}
