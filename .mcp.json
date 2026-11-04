@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sprkly": {
+      "type": "http",
+      "url": "https://sprkly.app/api/mcp"
+    }
+  }
+}

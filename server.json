@@ -1,11 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "app.sprkly/sprkly",
-  "description": "Schedule, publish and track social posts across TikTok, Instagram, Threads and YouTube Shorts.",
-  "version": "1.0.0",
+  "description": "Schedule and post to Instagram, TikTok, YouTube, Threads, Facebook, X, LinkedIn and more.",
+  "version": "1.1.0",
   "websiteUrl": "https://sprkly.app",
   "repository": {
-    "url": "https://github.com/YOUR_GH_USERNAME/sprkly-mcp",
+    "url": "https://github.com/ahlanlhw/sprkly-mcp",
     "source": "github"
   },
   "remotes": [

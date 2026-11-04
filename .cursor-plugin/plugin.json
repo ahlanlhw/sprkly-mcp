@@ -1,0 +1,30 @@
+{
+  "name": "sprkly",
+  "displayName": "sprkly",
+  "version": "1.1.0",
+  "description": "Schedule and post to Instagram, TikTok, YouTube, Threads, Facebook, Bluesky, X, LinkedIn and Telegram from chat. Check what is queued and how your posts did.",
+  "author": {
+    "name": "Alan",
+    "email": "hello@sprkly.app"
+  },
+  "homepage": "https://sprkly.app",
+  "repository": "https://github.com/ahlanlhw/sprkly-mcp",
+  "license": "MIT",
+  "keywords": [
+    "sprkly",
+    "social media",
+    "scheduling",
+    "instagram",
+    "tiktok",
+    "youtube",
+    "threads",
+    "linkedin",
+    "mcp"
+  ],
+  "category": "integrations",
+  "tags": ["social media", "scheduling", "mcp"],
+  "skills": "./skills/",
+  "rules": "./rules/",
+  "commands": "./commands/",
+  "mcpServers": "./.mcp.json"
+}

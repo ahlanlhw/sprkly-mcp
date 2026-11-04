@@ -1,24 +1,47 @@
-# Sprkly MCP Server
+# sprkly MCP server and plugin
 
 Post to social media by talking to your AI assistant.
 
-Sprkly is a cross-platform social scheduling tool. This MCP server exposes it as a hosted
-connector, so an assistant like Claude can draft captions, queue posts, and pull analytics
-directly. No dashboard, no copy-paste.
+- sprkly schedules posts to Instagram, TikTok, YouTube, Threads, Facebook, Bluesky, X, LinkedIn and Telegram.
+- This MCP server lets an assistant like Cursor or Claude queue posts, check the queue and read how posts did.
+- No dashboard. No copy and paste.
 
 **Endpoint:** `https://sprkly.app/api/mcp`
 **Transport:** Streamable HTTP
-**Auth:** OAuth
+**Sign-in:** OAuth. You sign in to sprkly in your browser the first time. No API key in any file.
 **Docs:** https://sprkly.app/docs/mcp
 
-This repository contains the connector manifest and documentation. The server itself is hosted
-by Sprkly and is closed source.
+This repo holds the plugin files and the docs. The server is hosted by sprkly and is closed source.
+
+## Plans
+
+- Works on the 7-day free trial. No card needed.
+- Works on every paid plan: US$29, US$39, US$49 or US$99 a month. See https://sprkly.app/checkout.
+- Not on the Free plan.
 
 ## Install
 
+### Cursor
+
+- Install the sprkly plugin. It adds the MCP server, a skill, a rule and two commands.
+- Or add the server by hand in `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "sprkly": {
+      "url": "https://sprkly.app/api/mcp"
+    }
+  }
+}
+```
+
+- Reload Cursor. When sprkly shows in the MCP list, approve the sign-in.
+
 ### Claude (web, desktop, mobile)
 
-Settings → Connectors → Add custom connector → paste `https://sprkly.app/api/mcp`, then authorize.
+- Settings, then Connectors, then Add custom connector.
+- Paste `https://sprkly.app/api/mcp`, then sign in.
 
 ### Any Streamable HTTP client
 
@@ -33,48 +56,89 @@ Settings → Connectors → Add custom connector → paste `https://sprkly.app/a
 }
 ```
 
+## What is in this repo
+
+| Path | What it is |
+|---|---|
+| `.cursor-plugin/plugin.json` | The plugin manifest |
+| `.mcp.json` | The hosted MCP server |
+| `skills/sprkly/SKILL.md` | How to post well with sprkly |
+| `rules/sprkly.mdc` | Safety rules for posting |
+| `commands/sprkly-schedule-post.md` | Schedule a post |
+| `commands/sprkly-check-queue.md` | See what is queued |
+| `server.json` | MCP Registry entry |
+| `glama.json` | Glama listing |
+
 ## What it does
 
-| Tool | Purpose |
+**Posts**
+
+| Tool | What it does |
 |---|---|
-| `sprkly_list_connected_social_accounts` | Every linked account: platform, handle, follower count |
-| `sprkly_list_profiles` | Profile ids needed to target a post |
-| `sprkly_draft_post` | Turn a content hint into a caption, saved as a draft |
-| `sprkly_schedule_post` | Queue a post for publishing, in one call |
-| `sprkly_update_scheduled_post` | Change caption, time, targets, or media before it goes out |
-| `sprkly_delete_scheduled_post` | Remove a post from the queue |
-| `sprkly_list_scheduled_posts` | The queue, newest first, with status and failure reasons |
-| `sprkly_get_post_status` | Full detail for one post, including permalink |
-| `sprkly_add_media_from_url` | Pull an image or video from a public link into Sprkly |
-| `sprkly_validate_post_policy` | Check a caption against each platform's rules before scheduling |
-| `sprkly_get_analytics` | Views and engagement on published posts |
-| `sprkly_get_tiktok_posting_options` | Allowed TikTok privacy and interaction settings |
-| `sprkly_request_post_approval` | Submit a draft for human review |
-| `sprkly_get_post_approval_status` | Whether a post is awaiting review, approved, or rejected |
-| `sprkly_get_account_summary` | Plan tier, trial state, connected accounts, queue counts |
-| `sprkly_get_billing_summary` | Subscription status, plan, period end, purchased handles |
+| `sprkly_schedule_post` | Queue a post in one call. It checks each platform's rules first. |
+| `sprkly_update_scheduled_post` | Change the caption, time, accounts or media before it goes out |
+| `sprkly_delete_scheduled_post` | Take a post out of the queue |
+| `sprkly_draft_post` | Save a caption as a draft |
+| `sprkly_list_scheduled_posts` | The queue, with status and why a post failed |
+| `sprkly_get_post_status` | One post in full, with its link |
+| `sprkly_validate_post_policy` | Check a draft against each platform's rules without posting |
+| `sprkly_add_media_from_url` | Pull a photo or video from a public link |
+| `sprkly_upload_media` | Send files from your disk |
+| `sprkly_get_tiktok_posting_options` | The TikTok privacy settings you are allowed |
+| `sprkly_request_post_approval` | Send a draft for review |
+| `sprkly_get_post_approval_status` | Is it waiting, approved or turned down |
+
+**Accounts and numbers**
+
+| Tool | What it does |
+|---|---|
+| `sprkly_list_profiles` | The accounts you can post to |
+| `sprkly_list_connected_social_accounts` | Each linked account, with handle and followers |
+| `sprkly_get_analytics` | Views and engagement, best times, top posts |
+| `sprkly_get_audience` | Who follows you on Instagram |
+| `sprkly_get_engagement_summary` | Last week against the week before |
+| `sprkly_get_account_summary` | Plan, trial, accounts and queue counts |
+| `sprkly_get_billing_summary` | Plan and when it renews |
+
+**Instagram auto replies and inbox**
+
+| Tool | What it does |
+|---|---|
+| `sprkly_list_automation_templates` | Ready-made auto replies |
+| `sprkly_create_automation_from_template` | Set one up and turn it on |
+| `sprkly_import_automation_template` | Read or set up a template file |
+| `sprkly_export_automation_template` | Save an auto reply as a file |
+| `sprkly_list_automations` | What is on |
+| `sprkly_pause_automation` | Turn one off |
+| `sprkly_resume_automation` | Turn one back on |
+| `sprkly_get_automation_usage` | People messaged this month, and the limit |
+| `sprkly_get_automation_insights` | What auto replies did over 7, 30 or 90 days |
+| `sprkly_list_leads` | Who asked for the link |
+| `sprkly_list_inbox_threads` | Who is waiting for an answer |
+| `sprkly_get_inbox_thread` | Read one conversation |
+| `sprkly_reply_to_dm` | Answer a DM |
+| `sprkly_reply_to_comment` | Answer a comment in public |
 
 ## Try these
 
-> Show me what's in my Sprkly queue for next week.
+> Show me what is in my sprkly queue for next week.
 
-> Draft a TikTok caption about our new winter drop and schedule it for Thursday 6pm.
+> Write a TikTok caption about our new winter drop and schedule it for Thursday 6pm.
 
-> Which of my posts from the last 30 days got the most engagement?
+> Which of my posts from the last 30 days did best?
 
 ## Safety
 
-Scheduling and publishing tools change state and are annotated accordingly. Read-only tools
-are marked read-only. `sprkly_validate_post_policy` runs a pre-flight check against each target
-platform's rules so a post fails in chat rather than at publish time.
+- Tools that change things are marked that way. Read-only tools are marked read-only.
+- `sprkly_schedule_post` checks each platform's rules first, so a post fails in chat, not at publish time.
+- Inbox tools stay off until you allow inbox access.
 
 ## Support
 
 - Docs: https://sprkly.app/docs/mcp
-- Issues: use this repository's issue tracker
+- Issues: this repo's issue tracker
 - Email: hello@sprkly.app
 
 ## License
 
-MIT (this manifest and documentation). The Sprkly service is governed by its own terms at
-https://sprkly.app.
+MIT for the files in this repo. The sprkly service has its own terms at https://sprkly.app.
