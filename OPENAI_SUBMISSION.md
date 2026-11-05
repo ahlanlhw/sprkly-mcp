@@ -6,6 +6,7 @@ It does not replace the existing Cursor package or its compatibility files.
 ## Draft listing
 
 - Display name: `sprkly`
+- Verified publisher name: `sprkly.app`
 - Subtitle: `Schedule social posts` (21 characters)
 - Category: `Communication`
 - Website: <https://sprkly.app/docs/mcp>
@@ -13,9 +14,11 @@ It does not replace the existing Cursor package or its compatibility files.
 - Privacy: <https://sprkly.app/privacy>
 - Terms: <https://sprkly.app/terms>
 - Version: `1.1.0`
+- Country targeting: all available countries (`publication.countries: []`)
+- Commerce: no purchases or payments (`review.commerce: false`)
 - Release notes: Adds a portable OpenAI plugin package for sprkly with its hosted OAuth MCP connection, directory listing metadata, reviewer prompts, and initial review test cases.
 
-The intended verified publisher identity, country targeting, and commerce declaration are intentionally absent until the publisher confirms them.
+The package uses the publisher identity and publication declarations confirmed by the publisher on 5 November 2026.
 
 The public privacy policy also needs a publisher review before submission. Its May 2026 plan names and media-retention table do not match the current plans and retention periods described in the October 2026 terms and current product pages. Update the policy from confirmed practices, then re-verify the published URL; do not treat the current URL as policy-complete merely because it loads.
 
@@ -80,13 +83,8 @@ Record the version in this package using the dedicated reviewer account. Keep pa
 
 Host the recording at a reviewer-accessible HTTPS URL, verify playback without a private login, add it as `extensions.com.openai.review.demo_recording_url`, and rebuild the ZIP.
 
-## Remaining publication decisions
+## Icon
 
-The authorized publisher must confirm:
-
-1. The exact verified individual or business identity to display as the developer.
-2. All available countries or a specific list of supported country codes.
-3. Whether the plugin involves payments or purchases; if yes, what users buy and where payment occurs.
-4. Whether to keep the generated coral-to-violet submission icon and whether optional dark-mode assets or brand colors are wanted.
+The package uses the publisher-supplied 512 × 512 PNG from the sprkly application assets. It replaces the generated draft icon. Optional dark-mode assets and brand colors are not included; their absence is not a submission blocker.
 
 The authorized developer must complete the portal's legal and policy attestations. Uploading a ZIP creates a draft; it does not submit the plugin for review or publish it.

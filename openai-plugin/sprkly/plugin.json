@@ -3,6 +3,9 @@
   "name": "sprkly",
   "version": "1.1.0",
   "description": "Schedule social posts, manage a posting queue, review performance, and handle supported Instagram engagement workflows through sprkly.",
+  "author": {
+    "name": "sprkly.app"
+  },
   "homepage": "https://sprkly.app/agents",
   "repository": "https://github.com/ahlanlhw/sprkly-mcp",
   "license": "MIT",
@@ -19,6 +22,7 @@
         "displayName": "sprkly",
         "shortDescription": "Schedule social posts",
         "longDescription": "Use sprkly to draft, validate, schedule, update, and review social posts from chat. It works with connected Instagram, TikTok, YouTube, Threads, Facebook, Bluesky, X, LinkedIn, and Telegram accounts. The plugin can inspect the posting queue, analyze performance and audience data where platforms provide it, manage supported Instagram comment and DM automations, and read or reply to the inbox when the user has explicitly granted inbox access. Actions use the user's existing sprkly account, connected profiles, plan limits, and approval settings. The assistant should show users content and target details before scheduling or sending replies.",
+        "developerName": "sprkly.app",
         "category": "Communication",
         "capabilities": [
           "Interactive"
@@ -36,6 +40,7 @@
         "composerIcon": "assets/sprkly-icon.png"
       },
       "review": {
+        "commerce": false,
         "prompts": [
           "Show me what is scheduled in sprkly for next week.",
           "Which posts performed best over the last 30 days, and how strong is the evidence?",
@@ -93,7 +98,8 @@
         }
       },
       "publication": {
-        "release_notes": "Adds a portable OpenAI plugin package for sprkly with its hosted OAuth MCP connection, directory listing metadata, reviewer prompts, and initial review test cases."
+        "release_notes": "Adds a portable OpenAI plugin package for sprkly with its hosted OAuth MCP connection, directory listing metadata, reviewer prompts, and initial review test cases.",
+        "countries": []
       }
     }
   }
