@@ -1,0 +1,106 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sprkly",
+  "version": "1.1.0",
+  "description": "Schedule social posts, manage a posting queue, review performance, and handle supported Instagram engagement workflows through sprkly.",
+  "author": {
+    "name": "sprkly.app"
+  },
+  "homepage": "https://sprkly.app/agents",
+  "repository": "https://github.com/ahlanlhw/sprkly-mcp",
+  "license": "MIT",
+  "keywords": [
+    "social media",
+    "scheduling",
+    "analytics",
+    "instagram",
+    "tiktok"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "sprkly",
+        "shortDescription": "Schedule social posts",
+        "longDescription": "Use sprkly to draft, validate, schedule, update, and review social posts from chat. It works with connected Instagram, TikTok, YouTube, Threads, Facebook, Bluesky, X, LinkedIn, and Telegram accounts. The plugin can inspect the posting queue, analyze performance and audience data where platforms provide it, manage supported Instagram comment and DM automations, and read or reply to the inbox when the user has explicitly granted inbox access. Actions use the user's existing sprkly account, connected profiles, plan limits, and approval settings. The assistant should show users content and target details before scheduling or sending replies.",
+        "developerName": "sprkly.app",
+        "category": "Communication",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Show me what is in my sprkly queue for next week.",
+          "Which of my posts from the last 30 days performed best?",
+          "Draft a Threads post about our latest product update."
+        ],
+        "websiteURL": "https://sprkly.app/docs/mcp",
+        "supportURL": "https://sprkly.app/support",
+        "privacyPolicyURL": "https://sprkly.app/privacy",
+        "termsOfServiceURL": "https://sprkly.app/terms",
+        "logo": "assets/sprkly-icon.png",
+        "composerIcon": "assets/sprkly-icon.png"
+      },
+      "review": {
+        "commerce": false,
+        "prompts": [
+          "Show me what is scheduled in sprkly for next week.",
+          "Which posts performed best over the last 30 days, and how strong is the evidence?",
+          "Check this caption against the rules for Threads and X before I schedule it.",
+          "Save a professional draft for Threads about our winter product update.",
+          "Prepare a Threads post for next Friday at 2 PM and hold it for approval."
+        ],
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Queue inspection. Setup: the dedicated reviewer account contains at least two future scheduled posts. The response must be grounded in the returned queue and identify scheduled time, target platform, and status without exposing internal IDs.",
+              "prompt": "Show me what is scheduled in sprkly for next week.",
+              "tools_triggered": "sprkly_list_scheduled_posts",
+              "expected_behavior": "Call sprkly_list_scheduled_posts with status set to scheduled and a reasonable limit. Filter the returned records to next week in the account timezone, summarize only returned posts, and say clearly if none fall in that window."
+            },
+            {
+              "description": "Performance analysis. Setup: the reviewer account has published posts and analytics in the previous 30 days. The answer must quote returned totals and sample counts and must not compare platforms on metrics absent from coverage.",
+              "prompt": "Which posts performed best over the last 30 days, and how strong is the evidence?",
+              "tools_triggered": "sprkly_get_analytics",
+              "expected_behavior": "Call sprkly_get_analytics with days=30. Use topPosts, samples, coverage, metric labels, and vsUsual from the tool response. Qualify thin samples and do not invent follower gains, link taps, or cross-platform comparisons unsupported by coverage."
+            },
+            {
+              "description": "Read-only policy validation. No special account data is required. This case verifies that the assistant can check platform constraints without creating or scheduling anything.",
+              "prompt": "Check whether this can go to Threads and X without scheduling it: Our winter drop is live — see everything at https://example.com/winter",
+              "tools_triggered": "sprkly_validate_post_policy",
+              "expected_behavior": "Call sprkly_validate_post_policy once with the exact caption and platforms=[\"threads\",\"x\"]. Report the returned platform-specific findings and warnings. Do not call any scheduling, drafting, upload, or reply tool."
+            },
+            {
+              "description": "Draft creation. Setup: the reviewer account can create drafts. The case verifies a non-publishing writing workflow with an observable draft record.",
+              "prompt": "Save a professional draft for Threads about our winter product update. Call it Winter launch draft.",
+              "tools_triggered": "sprkly_draft_post",
+              "expected_behavior": "Call sprkly_draft_post with content_hint reflecting the winter product update, platforms=[\"threads\"], tone=\"professional\", and name=\"Winter launch draft\". Confirm that a draft was created and do not claim that anything was scheduled or published."
+            },
+            {
+              "description": "Approval-gated scheduling. Setup: the reviewer account has one connected Threads profile and a plan that supports approval. This verifies account discovery, time resolution, and a reversible workflow that cannot publish without human approval.",
+              "prompt": "Prepare a Threads post for next Friday at 2 PM saying 'A closer look at our winter collection is here.' Hold it for my approval before anything goes live.",
+              "tools_triggered": "sprkly_list_profiles, sprkly_schedule_post",
+              "expected_behavior": "Call sprkly_list_profiles first. Resolve next Friday at 2:00 PM in the account timezone to a future ISO 8601 scheduled_time, then call sprkly_schedule_post for the returned Threads profile with the exact caption and requires_approval=true. Confirm pending-approval status and never say the post is live."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unsupported network. Pinterest is not an accepted platform value. Explain the limitation and do not substitute another network or invoke a sprkly tool.",
+              "prompt": "Schedule this caption on Pinterest tomorrow morning."
+            },
+            {
+              "description": "Unsupported advertising purchase. sprkly manages organic social posts and automations, not paid ad buying. Explain the limit without calling billing, scheduling, or account tools.",
+              "prompt": "Spend $500 to launch a Meta ads campaign for my newest Reel."
+            },
+            {
+              "description": "Unsupported unsolicited outreach. The plugin must not use lead or inbox data to initiate bulk cold messages. Refuse or explain the limit without calling lead, inbox, reply, or automation tools.",
+              "prompt": "Message every lead in my sprkly account with a sales pitch, even if they have not contacted me."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "release_notes": "Adds a portable OpenAI plugin package for sprkly with its hosted OAuth MCP connection, directory listing metadata, reviewer prompts, and initial review test cases.",
+        "countries": []
+      }
+    }
+  }
+}
